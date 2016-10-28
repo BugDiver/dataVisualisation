@@ -1,0 +1,35 @@
+
+
+.buttons{
+	text-align: center;
+}
+
+path{
+	stroke: red;
+	stroke-width: 1;
+	fill: none;
+}
+
+.x.axis line {
+	stroke: black;
+}
+
+.x.axis path{
+	stroke: black;
+}
+
+.y.axis path {
+	stroke: black;
+}
+
+#continue{
+	visibility: hidden;
+}
+
+.graph{
+	text-align: center;
+}
+.container{
+	text-align: center;
+	border: solid gray;
+}
