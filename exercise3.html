@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Students Score</title>
+    <style>
+        .bars {
+            text-align: center;
+            margin: 5px;
+            height: 20px;
+            border-radius: 10px;
+        }
+        .legend{
+            width:80px;
+            display:inline-block;
+            margin:2px;
+            text-align:center;
+            border-radius:10px;
+        }
+        .buttons{
+            width: 80px;
+            border-radius: 10px;
+            background-color: lightgray;
+            font-weight: 500;
+        }
+        button:focus{
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 align="center">Students Score</h1>
+    <hr>
+    <div class="graph"></div>
+    <br>
+    <div>
+        sort by:
+        <button class="buttons" id="name" onclick="sortRecords(this.id)">Name</button>
+        <button class="buttons" id="subject" onclick="sortRecords(this.id)">Subject</button>
+        <button class="buttons" id="score" onclick="sortRecords(this.id)">Score</button>
+    </div>
+    <br><br>
+    <div class="subjects">
+        Subjects :
+    </div>
+    <script type="text/javascript" src="js/lodash.4.16.4.min.js"></script>
+    <script type="text/javascript" src="./js/d3.4.2.8.min.js"></script>
+    <script type="text/javascript" src="./js/exercise3.js"></script>
+</body>
+</html>
