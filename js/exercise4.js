@@ -1,46 +1,30 @@
 var loadChart = function(){
     var data = [1,2,3,4,5,6,7,8,9,10];
-
-    var titles = [
-        {title : "Title", id : "title"},
-        {title : "N", id : "n"},
-        {title : "N²", id : "nsquare"},
-        {title : "log(N)", id : "log"},
-        {title : "log(N) Rounded", id : "rounded"},
-
-    ];
-
-    var squareScale = d3.scalePow().exponent(2);
+    var powerScale = d3.scalePow().exponent(2);
     var logScale = d3.scaleLog().base(Math.E);
 
+    var titles = ["Title","N","N²","log(N)","log(N) rounded"];
+
     var scales = {
-        "title" : function(d){return d},
-        "n" : function(d){return d},
-        "nsquare":function(d){return squareScale(d)},
-        "log" : function(d){return logScale(d)},
-        "rounded" : function(d){return Math.round(logScale(d))}
+        "Title" : function(d){return d},
+        "N" : function(d){return d},
+        "N²":function(d){return powerScale(d)},
+        "log(N)" : function(d){return logScale(d)},
+        "log(N) rounded" : function(d){return Math.round(logScale(d))}
     };
 
+    var rows = d3.select(".container").selectAll("tr").data(titles);
 
-    var table = d3.select(".chart").selectAll('.tHead').data(titles);
-
-    table.enter().append("div")
-        .classed("tHead",true)
-        .attr("id",function(d){return d.id;})
-        .text(function(d){return d.title})
-
-
-    d3.selectAll(".tHead").each(function(t,n){
-        var title = this.id;
-        var values = d3.select("#"+title).selectAll(".values").data(data);
-
-        values.enter().append("div")
-            .classed("values",true)
-            .text(function(d){return scales[title](d)});
-
+    rows.enter().append("tr").append("th")
+        .classed("rows",true)
+        .text(function(n){return n});
+    
+    d3.selectAll("tr").each(function(row,i){
+        var title = titles[i];
+        d3.select(this).selectAll("td").data(data)
+           .enter().append("td")
+           .text(function(d){return scales[title](d)});
     });
-
 };
-
 
 window.onload = loadChart();
