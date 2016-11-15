@@ -38,6 +38,7 @@ var showShapes = function () {
         .attr("stroke", "skyblue")
         .attr("rx", "5px")
         .attr("ry", "5px");
+    
     svg.append("polygon")
         .attr("stroke", "green")
         .attr("stroke-width", "3")
