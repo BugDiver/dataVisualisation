@@ -1,11 +1,4 @@
 var loadChart = function () {
-    const MARGIN = 40;
-    const WIDTH = 580;
-    const HEIGHT = 580;
-
-    const INNERWIDTH = WIDTH - (2 * MARGIN);
-    const INNERHEIGHT = HEIGHT - (2 * MARGIN);
-
     var points = [
         {x: 0, y: 5},
         {x: 1, y: 9},
@@ -17,54 +10,61 @@ var loadChart = function () {
         {x: 8, y: 3},
         {x: 9, y: 2}
     ];
-
-    var getPointsAsString = function (points) {
-        return points.reduce(function (init, point) {
-            return init + (point.x * 50) + "," + (INNERHEIGHT - (point.y * 50)) + " ";
-        }, '');
-    };
-
-    var getPointsAsSineValues = function (points) {
-        return points.reduce(function (init, point) {
-            return init + ((point.x * 50)) + "," + (INNERHEIGHT - (Math.sin(point.x)+5) * 50) + " ";
-        }, '');
-    };
-
-    console.log(getPointsAsSineValues(points));
+    
+    const WIDTH = 500;
+    const HEIGHT = 500;
+    const MARGIN = 30;
+    const INNERWIDTH = WIDTH - (2 * MARGIN);
+    const INNERHEIGHT = HEIGHT - (2 * MARGIN);
 
     var xScale = d3.scaleLinear().domain([0, 1]).range([0, INNERWIDTH]);
     var yScale = d3.scaleLinear().domain([0, 1]).range([INNERHEIGHT, 0]);
 
-    var svg = d3.select(".graph").append("svg")
-        .attr("width", WIDTH)
-        .attr("height", HEIGHT)
-        .append("g")
-        .attr("transform", "translate(" + MARGIN + "," + MARGIN + ")");
+    var svg = d3.select('.container').append('svg')
+        .attr('width', WIDTH)
+        .attr('height', HEIGHT);
 
-    var xAxis = d3.axisBottom(xScale);
-    svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + INNERHEIGHT + ")")
-        .call(xAxis);
+    svg.append('g')
+        .attr('transform', 'translate(' + MARGIN + ', ' + (HEIGHT - MARGIN) + ')')
+        .call(d3.axisBottom(xScale));
 
-    var yAxis = d3.axisLeft(yScale);
-    svg.append("g")
-        .attr("class", "y axis")
-        .call(yAxis);
+    svg.append('g')
+        .attr('transform', 'translate(' + (MARGIN) + ', ' + MARGIN + ')')
+        .call(d3.axisLeft(yScale));
 
-    svg.append("polyline")
-        .attr("points", getPointsAsString(points))
-        .style("fill", "none")
-        .style("stroke", "steelblue")
-        .style("stroke-width", "3");
+    svg.append('g')
+        .attr('transform', 'translate(' + MARGIN + ', ' + MARGIN + ')')
+        .classed('chart', true);
 
-    svg.append("polyline")
-        .attr("points", getPointsAsSineValues(points))
-        .style("fill", "none")
-        .style("stroke", "steelblue")
-        .style("stroke-width", "3");
+    var line = d3.line()
+        .x(function (d) {return xScale(d.x / 10);})
+        .y(function (d) {return yScale(d.y / 10);});
 
+    var sinLine = d3.line()
+        .x(function (d) {return xScale(d.x / 10);})
+        .y(function (d) {return yScale(Math.sin(d.x) / 10 + 0.5);});
 
+    d3.selectAll('.chart').append('path')
+        .attr('class', 'line')
+        .attr("d", line(points));
+
+    d3.selectAll('.chart').append('path')
+        .attr('class', 'sin-line')
+        .attr("d", sinLine(points));
+
+    var chart = d3.selectAll('.chart');
+
+    chart.selectAll('line-circle').data(points)
+        .enter().append('circle')
+        .attr('cx', function (d) {return xScale(d.x / 10)})
+        .attr('cy', function (d) {return yScale(d.y / 10)})
+        .attr('r', 5);
+
+    chart.selectAll('sin-circle').data(points)
+        .enter().append('circle')
+        .attr('cx', function (d) {return xScale(d.x / 10)})
+        .attr('cy', function (d) {return yScale(Math.sin(d.x) / 10 + 0.5)})
+        .attr('r', 5);
 };
 
 
