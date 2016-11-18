@@ -41,8 +41,8 @@ var loadChart = function () {
         .y(function (d) {return yScale(d.y / 10);});
 
     var sinLine = d3.line()
-        .x(function (d) {return xScale(d.x / 10);})
-        .y(function (d) {return yScale(Math.sin(d.x) / 10 + 0.5);});
+        .x(function (d) {return xScale(d / 10);})
+        .y(function (d) {return yScale(Math.sin(d) / 10 + 0.5);});
 
     d3.selectAll('.chart').append('path')
         .attr('class', 'line')
@@ -50,7 +50,7 @@ var loadChart = function () {
 
     d3.selectAll('.chart').append('path')
         .attr('class', 'sin-line')
-        .attr("d", sinLine(points));
+        .attr("d", sinLine([0,1,2,3,4,5,6,7,8,9]));
 
     var chart = d3.selectAll('.chart');
 
@@ -60,10 +60,10 @@ var loadChart = function () {
         .attr('cy', function (d) {return yScale(d.y / 10)})
         .attr('r', 5);
 
-    chart.selectAll('sin-circle').data(points)
+    chart.selectAll('sin-circle').data([0,1,2,3,4,5,6,7,8,9])
         .enter().append('circle')
-        .attr('cx', function (d) {return xScale(d.x / 10)})
-        .attr('cy', function (d) {return yScale(Math.sin(d.x) / 10 + 0.5)})
+        .attr('cx', function (d) {return xScale(d / 10)})
+        .attr('cy', function (d) {return yScale(Math.sin(d) / 10 + 0.5)})
         .attr('r', 5);
 };
 
